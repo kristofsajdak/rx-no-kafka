@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "lodash": "^4.15.0",
     "no-kafka": "^2.7.0",
     "rx": "^4.1.0"
@@ -18,5 +19,4 @@
     "mocha": "^3.0.2",
     "node-uuid": "^1.4.7"
   }
-  
 }
