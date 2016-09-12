@@ -7,5 +7,7 @@ services:
 before_script:
   - docker-compose up -d 
   - sleep 15
+  - docker ps
+  - echo $DOCKER_HOST
 script: npm test
 
