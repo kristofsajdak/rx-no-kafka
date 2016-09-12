@@ -19,6 +19,7 @@ describe('Given a rx-no-kafka observable created from topic \'all\' with partiti
             consumer: new Kafka.SimpleConsumer(options), topic: 'all', partition: 0
         });
         this.noKafkaProducer = new Kafka.Producer(options);
+        return this.noKafkaProducer.init()
     })
 
 
@@ -27,43 +28,38 @@ describe('Given a rx-no-kafka observable created from topic \'all\' with partiti
     })
 
     function insert(producer, topic, partition, event, id, title) {
-        return producer.init().then(() => {
-            return producer.send({
-                topic: topic,
-                partition: partition,
-                message: {
-                    key: event,
-                    value: JSON.stringify({
-                        id,
-                        type: 'books',
-                        attributes: {
-                            title
-                        }
-                    })
-                }
-            });
+        return producer.send({
+            topic: topic,
+            partition: partition,
+            message: {
+                key: event,
+                value: JSON.stringify({
+                    id,
+                    type: 'books',
+                    attributes: {
+                        title
+                    }
+                })
+            }
         });
     }
 
-    describe('', function () {
-        it('When a new message is added to the topic / partition Then the observable should receive that message', function (done) {
-            const id = uuid.v4()
-            const subscription = this.noKafkaObservable
-                .subscribe((e) => {
-                    assertEventState(e, 'books.insert', id, 'test title1');
-                    subscription.dispose()
-                    done()
-                })
-            insert(this.noKafkaProducer, 'all', 0, 'books.insert', id, 'test title1')
-        })
+    it('When a new message is added to the topic / partition Then the observable should receive that message', function (done) {
+        const id = uuid.v4()
+        const subscription = this.noKafkaObservable
+            .subscribe((e) => {
+                assertEventState(e, 'books.insert', id, 'test title1');
+                subscription.dispose()
+                done()
+            })
+        insert(this.noKafkaProducer, 'all', 0, 'books.insert', id, 'test title1')
     })
+
 })
 
-
-
 function assertEventState(e, type, id, title) {
-    const parsedKey = new Buffer(e.key).toString();
-    const parsedValue = JSON.parse(new Buffer(e.value).toString());
+    const parsedKey = e.key.toString();
+    const parsedValue = JSON.parse(e.value.toString());
     expect(parsedKey).to.equal(type)
     expect(parsedValue.id).to.equal(id)
     expect(parsedValue.attributes).to.deep.equal({
