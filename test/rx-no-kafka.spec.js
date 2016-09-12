@@ -41,7 +41,9 @@ describe('Given a Kafka topic \'all\' with partition 0', function () {
         });
     }
 
-    it('When a rx-no-kafka observable is created from that topic And a new message is added to the topic / partition. Then the observable should receive that message', function (done) {
+    it(`When a rx-no-kafka observable is created from that topic 
+    And a new message is added to the topic / partition
+    Then the observable should receive that message`, function (done) {
         const id = uuid.v4()
         const noKafkaObservable = rxNoKafka.createObservable({
             consumer: new Kafka.SimpleConsumer(this.options), topic: 'all', partition: 0
@@ -64,7 +66,9 @@ describe('Given a Kafka topic \'all\' with partition 0', function () {
             return insert(this.noKafkaProducer, 'all', 0, 'books.insert', id1, 'test title1');
         })
 
-        it('When a rx-no-kafka observable is created from that topic without an offset And a new message is added to the topic / partition. Then the observable should only receive the last message', function (done) {
+        it(`When a rx-no-kafka observable is created from that topic without an offset 
+        And a new message is added to the topic / partition
+        Then the observable should only receive the last message`, function (done) {
             const noKafkaObservable = rxNoKafka.createObservable({
                 consumer: new Kafka.SimpleConsumer(this.options), topic: 'all', partition: 0
             });
@@ -91,7 +95,8 @@ describe('Given a Kafka topic \'all\' with partition 0', function () {
                 .then(() => insert(this.noKafkaProducer, 'all', 0, 'books.insert', id3, 'test title3'))
         })
 
-        it('When a rx-no-kafka observable is created from that topic with the offset of the second message. Then the observable should only receive the second and third message', function (done) {
+        it(`When a rx-no-kafka observable is created from that topic with the offset of the second message
+        Then the observable should only receive the second and third message`, function (done) {
             const noKafkaObservable = rxNoKafka.createObservable({
                 consumer: new Kafka.SimpleConsumer(this.options), topic: 'all', partition: 0, offset: this.offset
             });
@@ -121,7 +126,8 @@ describe('Given a Kafka topic \'all\' with partition 0', function () {
                 .then((result) => this.offset3 = result[0].offset)
         })
 
-        it.only(`When 2 rx-no-kafka observables are created and both specify different offsets. Then the observables should receive messages according to the offset`, function (done) {
+        it(`When 2 rx-no-kafka observables are created and both specify different offsets
+        Then the observables should receive messages according to the offset`, function (done) {
 
             const join = new Rx.Subject()
 
@@ -136,7 +142,7 @@ describe('Given a Kafka topic \'all\' with partition 0', function () {
                 })
                 .subscribe(join)
 
-           const noKafkaObservable2 = rxNoKafka.createObservable({
+            const noKafkaObservable2 = rxNoKafka.createObservable({
                 consumer: new Kafka.SimpleConsumer(this.options), topic: 'all', partition: 0, offset: this.offset3
             });
             noKafkaObservable2
@@ -147,7 +153,8 @@ describe('Given a Kafka topic \'all\' with partition 0', function () {
 
             join.bufferWithCount(2).subscribe(() => {
                 join.dispose()
-                done()})
+                done()
+            })
 
         })
 
