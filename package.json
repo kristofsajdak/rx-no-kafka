@@ -1,0 +1,21 @@
+{
+  "name": "rx-no-kafka",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.15.0",
+    "no-kafka": "^2.7.0",
+    "rx": "^4.1.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2",
+    "node-uuid": "^1.4.7"
+  }
+}
