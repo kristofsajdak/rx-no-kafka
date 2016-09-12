@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - '4'
+sudo: required
+services:
+  - docker
+before_script:
+  - docker-compose up
+script: npm test
+
