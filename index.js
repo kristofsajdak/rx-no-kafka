@@ -31,7 +31,7 @@ module.exports.createObservable = function (args) {
                 }
 
                 return d.consumer.init().then(() => {
-                    const subscribeOptions = args.lastEventId ? _.merge({ handlerConcurrency: 1 }, { offset: args.lastEventId }) :
+                    const subscribeOptions = args.offset ? _.merge({ handlerConcurrency: 1 }, { offset: args.offset }) :
                         _.merge({ handlerConcurrency: 1 }, { time: Kafka.LATEST_OFFSET });
 
                     return d.consumer.subscribe(args.topic, args.partition, subscribeOptions, dataHandler);
