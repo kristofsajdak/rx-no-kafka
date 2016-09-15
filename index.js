@@ -1,9 +1,9 @@
-'use strict'
+'use strict';
 
-const _ = require('lodash')
-const Promise = require('bluebird')
-const Rx = require('rx')
-const Kafka = require('no-kafka')
+const _ = require('lodash');
+const Promise = require('bluebird');
+const Rx = require('rx');
+const Kafka = require('no-kafka');
 
 module.exports.createObservable = function (args) {
 
@@ -28,7 +28,7 @@ module.exports.createObservable = function (args) {
                         const sseObject = createTopicMessageObject(m);
                         observer.onNext(sseObject);
                     })
-                }
+                };
 
                 return d.consumer.init().then(() => {
                     const subscribeOptions = args.offset ? _.merge({ handlerConcurrency: 1 }, { offset: args.offset }) :
@@ -37,7 +37,7 @@ module.exports.createObservable = function (args) {
                     return d.consumer.subscribe(args.topic, args.partition, subscribeOptions, dataHandler);
                 });
             })
-        })
+        });
 
     function DisposableKafka(consumer) {
         const d = Rx.Disposable.create(() => {
@@ -46,7 +46,7 @@ module.exports.createObservable = function (args) {
         d.consumer = consumer;
         return d;
     }
-}
+};
 
 
 
